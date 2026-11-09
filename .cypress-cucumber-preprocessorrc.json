@@ -1,5 +1,3 @@
 {
-    "stepDefinitions": [
-        "cypress/support/step_definitions/**/*.js"
-    ]
+  "stepDefinitions": ["cypress/support/step_definitions/**/*.js"]
 }

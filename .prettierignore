@@ -1,0 +1,13 @@
+node_modules/
+bookstore-app/
+cypress/screenshots/
+cypress/videos/
+cypress/results/
+allure-results/
+allure-report/
+coverage/
+package-lock.json
+cypress.env.json
+*.db
+*.db-shm
+*.db-wal

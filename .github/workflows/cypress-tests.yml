@@ -130,3 +130,6 @@ jobs:
           if [ -f "$RUNNER_TEMP/bookstore-server.pid" ]; then
             kill "$(cat "$RUNNER_TEMP/bookstore-server.pid")" 2>/dev/null || true
           fi
+
+      - name: Check formatting
+        run: npm run format:check

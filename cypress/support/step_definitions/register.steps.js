@@ -9,92 +9,92 @@ import RegisterPage from "../../../pages/RegisterPage";
 let registrationUser;
 
 Given("I am on the registration page", () => {
-	RegisterPage.visitRegistrationPage();
+  RegisterPage.visitRegistrationPage();
 });
 
 When("I fill the registration form with a new user", () => {
-	registrationUser = {
-		name: "Juliano Test User",
+  registrationUser = {
+    name: "Juliano Test User",
 
-		// A unique address reduces collisions between repeated test runs.
-		email: `qa-${faker.string.uuid()}@example.com`,
+    // A unique address reduces collisions between repeated test runs.
+    email: `qa-${faker.string.uuid()}@example.com`,
 
-		password: "Example123!",
-	};
+    password: "Example123!",
+  };
 
-	RegisterPage.fillForm(registrationUser);
+  RegisterPage.fillForm(registrationUser);
 });
 
 When("I fill the registration form with the same user", () => {
-	expect(registrationUser, "previously created registration data").to.exist;
+  expect(registrationUser, "previously created registration data").to.exist;
 
-	RegisterPage.fillForm(registrationUser);
+  RegisterPage.fillForm(registrationUser);
 });
 
 When("I change the registration field {string} to {string}", (field, value) => {
-	RegisterPage.fillField(field, value);
+  RegisterPage.fillField(field, value);
 });
 
 When("I restore the new user's registration email", () => {
-	RegisterPage.fillField("email", registrationUser.email);
+  RegisterPage.fillField("email", registrationUser.email);
 });
 
 When("I enter the registration phone {string}", (phone) => {
-	RegisterPage.fillField("phone", phone);
+  RegisterPage.fillField("phone", phone);
 });
 
 When("I accept the registration terms", () => {
-	RegisterPage.acceptTerms();
+  RegisterPage.acceptTerms();
 });
 
 When("I submit the registration form", () => {
-	RegisterPage.submit();
+  RegisterPage.submit();
 });
 
 When("I toggle the registration password visibility", () => {
-	RegisterPage.togglePasswordVisibility();
+  RegisterPage.togglePasswordVisibility();
 });
 
 When("I click the registration link {string}", (link) => {
-	RegisterPage.clickNavigationLink(link);
+  RegisterPage.clickNavigationLink(link);
 });
 
 Then("I should see the registration fields", () => {
-	RegisterPage.assertForm();
+  RegisterPage.assertForm();
 });
 
 Then("the registration field {string} should be invalid", (field) => {
-	RegisterPage.assertFieldInvalid(field);
+  RegisterPage.assertFieldInvalid(field);
 });
 
 Then("I should remain on the registration page", () => {
-	RegisterPage.assertOnRegistrationPage();
+  RegisterPage.assertOnRegistrationPage();
 });
 
 Then("the registration should succeed", () => {
-	RegisterPage.assertRegistrationSucceeded();
+  RegisterPage.assertRegistrationSucceeded();
 });
 
 Then("the registration password should be visible", () => {
-	RegisterPage.assertPasswordType("text");
+  RegisterPage.assertPasswordType("text");
 });
 
 Then("the registration password should be hidden", () => {
-	RegisterPage.assertPasswordType("password");
+  RegisterPage.assertPasswordType("password");
 });
 
 Then("the registration password should contain {string}", (password) => {
-	RegisterPage.assertPasswordValue(password);
+  RegisterPage.assertPasswordValue(password);
 });
 
 Then("I should see a duplicate registration email error", () => {
-	RegisterPage.assertDuplicateEmailError();
+  RegisterPage.assertDuplicateEmailError();
 });
 
 Then("I should reach the login page from registration", () => {
-	RegisterPage.assertLoginPage();
+  RegisterPage.assertLoginPage();
 });
 
 Then("I should reach the catalog page from registration", () => {
-	RegisterPage.assertCatalogPage();
+  RegisterPage.assertCatalogPage();
 });

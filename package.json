@@ -5,7 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cy:open": "cypress open",
-    "cy:run": "cypress run"
+    "cy:run": "cypress run",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +19,7 @@
     "@faker-js/faker": "^10.6.0",
     "cypress": "^16.2.1",
     "esbuild": "^0.28.2",
+    "prettier": "3.9.10",
     "sqlite3": "^6.0.1"
   }
 }

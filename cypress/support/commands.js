@@ -25,9 +25,9 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 Cypress.Commands.add("Login", (email, password) => {
-	cy.visit("/");
-	cy.get("#email").type(email);
-	cy.get("#password").type(password);
-	cy.get("#login-btn").click();
-	cy.get("#user-name").should.have.text("Usuário Padrão");
+  cy.visit("/");
+  cy.get("#email").type(email);
+  cy.get("#password").type(password);
+  cy.get("#login-btn").click();
+  cy.get("#user-name").should.have.text("Usuário Padrão");
 });

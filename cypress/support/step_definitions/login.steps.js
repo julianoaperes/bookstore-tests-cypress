@@ -4,52 +4,52 @@ import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import LoginPage from "../../../pages/LoginPage.js";
 
 Given("I am on the login page", () => {
-	LoginPage.visitLoginPage();
+  LoginPage.visitLoginPage();
 });
 
 When("I type a valid email", () => {
-	LoginPage.typeEmail(Cypress.env("LOGIN_EMAIL"));
+  LoginPage.typeEmail(Cypress.env("LOGIN_EMAIL"));
 });
 
 When("I type a valid password", () => {
-	LoginPage.typePassword(Cypress.env("LOGIN_PASSWORD"));
+  LoginPage.typePassword(Cypress.env("LOGIN_PASSWORD"));
 });
 
 When("I click on the submit button", () => {
-	LoginPage.submit();
+  LoginPage.submit();
 });
 Then("I should be logged in successfully", () => {
-	cy.location("pathname").should("eq", "/dashboard.html");
+  cy.location("pathname").should("eq", "/dashboard.html");
 });
 
 When("I type a valid password", () => {
-	LoginPage.typePassword("user123");
+  LoginPage.typePassword("user123");
 });
 
 When("I type the email {string}", (email) => {
-	LoginPage.typeEmail(email);
+  LoginPage.typeEmail(email);
 });
 
 When("I type the password {string}", (password) => {
-	LoginPage.typePassword(password);
+  LoginPage.typePassword(password);
 });
 
 Then("I should see the login error {string}", (message) => {
-	LoginPage.assertLoginError(message);
+  LoginPage.assertLoginError(message);
 });
 
 Then("I should remain on the login page", () => {
-	LoginPage.assertOnLoginPage();
+  LoginPage.assertOnLoginPage();
 });
 
 Then("the email field should be required", () => {
-	LoginPage.assertEmailRequired();
+  LoginPage.assertEmailRequired();
 });
 
 Then("the password field should be required", () => {
-	LoginPage.assertPasswordRequired();
+  LoginPage.assertPasswordRequired();
 });
 
 Then("the email field should have an invalid format", () => {
-	LoginPage.assertInvalidEmailFormat();
+  LoginPage.assertInvalidEmailFormat();
 });

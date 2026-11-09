@@ -24,12 +24,12 @@ The repository currently contains one example scenario. It opens `https://exampl
 
 All four packages below are development dependencies. The version ranges come from `package.json`; `package-lock.json` records the exact dependency versions used for installation.
 
-| Package | Declared version | Role |
-| --- | --- | --- |
-| `cypress` | `^16.2.1` | Runs browser tests, provides commands and assertions, and displays test results. |
-| `@badeball/cypress-cucumber-preprocessor` | `^28.0.1` | Connects Gherkin feature files and JavaScript step definitions to Cypress. |
-| `@bahmutov/cypress-esbuild-preprocessor` | `^2.2.8` | Registers an esbuild-based file preprocessor with Cypress. |
-| `esbuild` | `^0.28.2` | Bundles the feature files and their JavaScript dependencies for execution. |
+| Package                                   | Declared version | Role                                                                             |
+| ----------------------------------------- | ---------------- | -------------------------------------------------------------------------------- |
+| `cypress`                                 | `^16.2.1`        | Runs browser tests, provides commands and assertions, and displays test results. |
+| `@badeball/cypress-cucumber-preprocessor` | `^28.0.1`        | Connects Gherkin feature files and JavaScript step definitions to Cypress.       |
+| `@bahmutov/cypress-esbuild-preprocessor`  | `^2.2.8`         | Registers an esbuild-based file preprocessor with Cypress.                       |
+| `esbuild`                                 | `^0.28.2`        | Bundles the feature files and their JavaScript dependencies for execution.       |
 
 Cucumber supports behavior-driven development (BDD): scenarios describe observable behavior, while step definitions implement the browser interactions and checks.
 
@@ -99,11 +99,11 @@ Chrome must be installed and discoverable by Cypress to use this option.
 
 ### Available npm scripts
 
-| Command | Behavior |
-| --- | --- |
-| `npm run cy:open` | Opens the interactive Cypress application. |
-| `npm run cy:run` | Runs the E2E feature files in headless mode. |
-| `npm test` | Runs a placeholder that prints `Error: no test specified` and exits with code `1`. |
+| Command           | Behavior                                                                           |
+| ----------------- | ---------------------------------------------------------------------------------- |
+| `npm run cy:open` | Opens the interactive Cypress application.                                         |
+| `npm run cy:run`  | Runs the E2E feature files in headless mode.                                       |
+| `npm test`        | Runs a placeholder that prints `Error: no test specified` and exits with code `1`. |
 
 Use `npm run cy:run` to execute the tests. The `test` script has not been connected to Cypress.
 
@@ -174,7 +174,7 @@ Although the step is named “I should see the page heading,” the implementati
 The E2E spec pattern is:
 
 ```js
-specPattern: "cypress/e2e/**/*.feature"
+specPattern: "cypress/e2e/**/*.feature";
 ```
 
 This discovers `.feature` files under `cypress/e2e`, including subdirectories. JavaScript files such as `example.js` provide step implementations; they are not separate test specs. Ordinary `.cy.js` files are also excluded by this pattern.
@@ -193,9 +193,7 @@ Together, these settings let Cypress discover a feature, load its step definitio
 
 ```json
 {
-  "stepDefinitions": [
-    "cypress/e2e/[filepath].js"
-  ]
+  "stepDefinitions": ["cypress/e2e/[filepath].js"]
 }
 ```
 
@@ -275,17 +273,17 @@ Setting `baseUrl` does not replace the absolute URL already used by the example;
 
 ## Troubleshooting
 
-| Symptom | What to check |
-| --- | --- |
-| `npm test` fails immediately | This is the placeholder script. Run `npm run cy:run`. |
-| No specs are found | Run from the project root and check that the file ends in `.feature` and is inside `cypress/e2e`. |
-| A step implementation is missing | Check the feature text against the registered expression, the JavaScript filename, and the `stepDefinitions` mapping. |
-| A `.cy.js` test does not appear | The current `specPattern` only includes `.feature` files. Change the pattern if you intentionally add another spec format. |
-| Cypress reports an unsupported Node.js version | Check `node --version` against the installed Cypress package's Node.js requirements. |
-| The Cypress executable is missing | Run `npx cypress install`, then `npx cypress verify`. These commands may need network access or access to Cypress's local cache. |
-| The example page does not load | Check access to `https://example.cypress.io`, including any proxy or firewall configuration. |
-| The visibility assertion fails | Inspect the browser and command log in interactive mode. Confirm that the page still contains visible `Kitchen Sink` text. |
-| Chrome cannot be found | Install Chrome or run without `--browser chrome` to use the bundled Electron browser. |
+| Symptom                                        | What to check                                                                                                                    |
+| ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `npm test` fails immediately                   | This is the placeholder script. Run `npm run cy:run`.                                                                            |
+| No specs are found                             | Run from the project root and check that the file ends in `.feature` and is inside `cypress/e2e`.                                |
+| A step implementation is missing               | Check the feature text against the registered expression, the JavaScript filename, and the `stepDefinitions` mapping.            |
+| A `.cy.js` test does not appear                | The current `specPattern` only includes `.feature` files. Change the pattern if you intentionally add another spec format.       |
+| Cypress reports an unsupported Node.js version | Check `node --version` against the installed Cypress package's Node.js requirements.                                             |
+| The Cypress executable is missing              | Run `npx cypress install`, then `npx cypress verify`. These commands may need network access or access to Cypress's local cache. |
+| The example page does not load                 | Check access to `https://example.cypress.io`, including any proxy or firewall configuration.                                     |
+| The visibility assertion fails                 | Inspect the browser and command log in interactive mode. Confirm that the page still contains visible `Kitchen Sink` text.       |
+| Chrome cannot be found                         | Install Chrome or run without `--browser chrome` to use the bundled Electron browser.                                            |
 
 ## Current scope
 
