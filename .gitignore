@@ -1,0 +1,12 @@
+node_modules/
+cypress.env.json
+.env
+.env.*
+!.env.example
+cypress/screenshots/
+cypress/videos/
+allure-results/
+allure-report/
+*.db
+*.db-shm
+*.db-wal

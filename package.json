@@ -1,0 +1,22 @@
+{
+  "name": "cypress-cucumber2",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^28.0.1",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.8",
+    "@faker-js/faker": "^10.6.0",
+    "cypress": "^16.2.1",
+    "esbuild": "^0.28.2",
+    "sqlite3": "^6.0.1"
+  }
+}
