@@ -1,0 +1,132 @@
+name: Cypress - UI, API and Database Tests
+
+# Run on updates to main, pull requests, or a manual trigger.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# The workflow only needs to read repository contents.
+permissions:
+  contents: read
+
+# Cancel an older run when the same branch receives another update.
+concurrency:
+  group: cypress-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cypress-tests:
+    name: Run Cypress suites
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    env:
+      CI: true
+
+      # Public sample account supplied by the training application.
+      # These values are available through Cypress.env().
+      CYPRESS_LOGIN_EMAIL: usuario@teste.com
+      CYPRESS_LOGIN_PASSWORD: user123
+
+      # Point database tests at the backend running in this job.
+      CYPRESS_DB_PATH: ${{ github.workspace }}/bookstore-app/database/biblioteca.db
+
+    steps:
+      - name: Download test project
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Download bookstore application
+        uses: actions/checkout@v7
+        with:
+          repository: julianoaperes/hub-de-leitura-integrado
+
+          # Pin the application version for reproducible test runs.
+          ref: 5b69f92b763e50e3404778fb56c9c359793d37cb
+
+          path: bookstore-app
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            bookstore-app/package-lock.json
+
+      - name: Install test dependencies
+        run: npm ci
+
+      - name: Install application dependencies
+        working-directory: bookstore-app
+        run: npm ci
+
+      - name: Check database file
+        run: |
+          test -f "$CYPRESS_DB_PATH"
+
+      - name: Start bookstore application
+        working-directory: bookstore-app
+        env:
+          PORT: "3000"
+
+          # Prevent the application from opening a browser on the runner.
+          NODE_ENV: production
+
+          # Used only by this temporary training application instance.
+          JWT_SECRET: temporary-ci-training-key
+        run: |
+          npm start > "$RUNNER_TEMP/bookstore-server.log" 2>&1 &
+          echo "$!" > "$RUNNER_TEMP/bookstore-server.pid"
+
+      - name: Wait for application
+        shell: bash
+        run: |
+          for attempt in {1..60}; do
+            if curl --fail --silent \
+              http://localhost:3000/api/health > /dev/null; then
+              echo "Bookstore application is ready."
+              exit 0
+            fi
+            sleep 1
+          done
+
+          echo "::error::The bookstore application did not become ready."
+          tail -n 80 "$RUNNER_TEMP/bookstore-server.log"
+          exit 1
+
+      - name: Run UI, API and database tests
+        run: |
+          mkdir -p cypress/results
+
+          npm run cy:run -- \
+            --browser chrome \
+            --config video=true \
+            --reporter junit \
+            --reporter-options "mochaFile=cypress/results/results-[hash].xml,toConsole=true"
+
+      - name: Save test reports, screenshots and videos
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: cypress-results-${{ github.run_attempt }}
+          path: |
+            cypress/results/
+            cypress/screenshots/
+            cypress/videos/
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Stop bookstore application
+        if: always()
+        shell: bash
+        run: |
+          if [ -f "$RUNNER_TEMP/bookstore-server.pid" ]; then
+            kill "$(cat "$RUNNER_TEMP/bookstore-server.pid")" 2>/dev/null || true
+          fi

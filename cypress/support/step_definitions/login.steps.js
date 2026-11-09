@@ -8,18 +8,18 @@ Given("I am on the login page", () => {
 });
 
 When("I type a valid email", () => {
-	LoginPage.fillEmail("jp.teste@teste.com");
+	LoginPage.typeEmail(Cypress.env("LOGIN_EMAIL"));
 });
 
 When("I type a valid password", () => {
-	LoginPage.fillPassword("123456");
+	LoginPage.typePassword(Cypress.env("LOGIN_PASSWORD"));
 });
 
 When("I click on the submit button", () => {
 	LoginPage.submit();
 });
 Then("I should be logged in successfully", () => {
-	// Verify successful authentication.
+	cy.location("pathname").should("eq", "/dashboard.html");
 });
 
 When("I type a valid password", () => {
